@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>ContentFilters</key>
+	<dict/>
+	<key>auto_connect</key>
+	<true/>
+	<key>data</key>
+	<dict>
+		<key>connection</key>
+		<dict>
+			<key>database</key>
+			<string>sakila</string>
+			<key>host</key>
+			<string>127.0.0.1</string>
+			<key>kcid</key>
+			<string>-5857961428102219635</string>
+			<key>name</key>
+			<string>HostMachine-mysql</string>
+			<key>port</key>
+			<integer>3306</integer>
+			<key>rdbms_type</key>
+			<string>mysql</string>
+			<key>sslCACertFileLocation</key>
+			<string></string>
+			<key>sslCACertFileLocationEnabled</key>
+			<integer>0</integer>
+			<key>sslCertificateFileLocation</key>
+			<string></string>
+			<key>sslCertificateFileLocationEnabled</key>
+			<integer>0</integer>
+			<key>sslKeyFileLocation</key>
+			<string></string>
+			<key>sslKeyFileLocationEnabled</key>
+			<integer>0</integer>
+			<key>type</key>
+			<string>SPTCPIPConnection</string>
+			<key>useSSL</key>
+			<integer>0</integer>
+			<key>user</key>
+			<string>root</string>
+		</dict>
+		<key>session</key>
+		<dict>
+			<key>connectionEncoding</key>
+			<string>utf8mb4</string>
+			<key>contentPageNumber</key>
+			<integer>1</integer>
+			<key>contentSelection</key>
+			<data>
+			YnBsaXN0MDDUAQIDBAUGJCVYJHZlcnNpb25YJG9iamVjdHNZJGFy
+			Y2hpdmVyVCR0b3ASAAGGoKgHCBMUFRYaIVUkbnVsbNMJCgsMDxJX
+			TlMua2V5c1pOUy5vYmplY3RzViRjbGFzc6INDoACgAOiEBGABIAF
+			gAdUdHlwZVRyb3dzXxAdU2VsZWN0aW9uRGV0YWlsVHlwZU5TSW5k
+			ZXhTZXTSFwsYGVxOU1JhbmdlQ291bnQQAIAG0hscHR5aJGNsYXNz
+			bmFtZVgkY2xhc3Nlc1pOU0luZGV4U2V0oh8gWk5TSW5kZXhTZXRY
+			TlNPYmplY3TSGxwiI1xOU0RpY3Rpb25hcnmiIiBfEA9OU0tleWVk
+			QXJjaGl2ZXLRJidUZGF0YYABAAgAEQAaACMALQAyADcAQABGAE0A
+			VQBgAGcAagBsAG4AcQBzAHUAdwB8AIEAoQCmALMAtQC3ALwAxwDQ
+			ANsA3gDpAPIA9wEEAQcBGQEcASEAAAAAAAACAQAAAAAAAAAoAAAA
+			AAAAAAAAAAAAAAABIw==
+			</data>
+			<key>contentSortColIsAsc</key>
+			<true/>
+			<key>contentViewport</key>
+			<string>{{0, 0}, {1159, 869}}</string>
+			<key>isToolbarVisible</key>
+			<true/>
+			<key>queries</key>
+			<string>INSERT INTO `posts` (`id`, `title`, `body`, `created_at`, `updated_at`, `published_at`)
+VALUES
+	(1, 'First', 'Great First Post', '2020-08-29 17:13:16', '2020-08-29 17:13:16', '2020-08-29 17:13:16');
+	
+	
+	INSERT INTO `comments` (`id`, `post_id`, `user_id`, `bpdy`, `created_at`, `updated_at`)
+VALUES
+	(1, 1, 1, 'Great job here', '2020-08-29 17:20:22', '2020-08-29 17:20:22');
+	
+	
+select *
+from store
+left outer join address
+on store.address_id = address.address_id;
+
+select count(*) from customer;
+select * from customer;
+
+select  customer_id, count(*)
+from rental
+group by customer_id;
+
+select * from rental;
+select * from inventory;
+select * from film;
+select * from language;
+
+select customer.customer_id, customer.first_name, customer.last_name, rental.rental_id
+from customer
+left join rental
+on customer.customer_id = rental.customer_id;
+
+select * from address;
+select * from city;
+select * from store;
+select * from rental;
+select * from customer;
+
+-- get the customer's home address
+select customer.customer_id, customer.first_name, customer.last_name, count(rental.rental_id) rentals_checkout_out, address.address
+from customer
+left join rental
+on customer.customer_id = rental.customer_id
+join address
+on address.address_id = customer.address_id
+group by customer.customer_id;
+
+
+-- get the customer's store address
+select customer.customer_id, customer.first_name, customer.last_name, count(rental.rental_id) rentals_checkout_out, address.address
+from customer
+left join rental
+on customer.customer_id = rental.customer_id
+join store
+on customer.store_id= store.store_id
+join address 
+on store.address_id = address.address_id
+group by customer.customer_id;
+
+-- get the customer's store address - option 2 for the same query above to get the customer's store address
+select customer.customer_id, customer.first_name, customer.last_name, count(rental.rental_id) rentals_checkout_out, address.address store_address
+from customer
+left join rental
+on customer.customer_id = rental.customer_id
+left join address
+on address.address_id = (select address_id from store where store_id = customer.store_id)
+group by customer.customer_id, address.address;
+
+-- most popular rentals at the store
+select * from payment;
+explain select rental_id from rental;
+select * from inventory;
+select * from film; 
+select inventory_id, film_id from inventory;
+
+select title, sum(amount) sales, count(*) rentals
+from rental
+join payment
+on rental.rental_id = payment.rental_id
+join inventory
+on rental.inventory_id = inventory.inventory_id
+join film
+on inventory.film_id = film.film_id
+group by title
+having sales &gt; 200 -- where clause needs to be used for actual columns
+order by sales desc;
+
+
+
+
+-- tutorials
+
+select * from tags;
+select * from posts;
+select * from post_tag;
+
+-- posts
+INSERT INTO `posts` (`id`, `user_id`, `title`, `body`, `created_at`, `updated_at`, `published_at`)
+VALUES
+	(1, 1, 'Foo', 'Foobar baz', '2020-08-31 19:34:30', '2020-08-31 19:34:30', '2020-08-31 15:34:57'),
+	(3, 1, 'Another Laraavel Post', 'Laravel is a PHP framework', '2020-08-31 16:14:56', '2020-08-31 16:15:07', '2020-08-31 16:15:11'),
+	(2, 1, 'Abc', 'Alphabets A B C', '2020-08-31 19:36:27', '2020-08-31 19:36:27', '2020-08-31 16:15:16');
+	
+
+-- users
+INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`)
+VALUES
+	(1, 'Cassandre Bechtelar', 'vwiegand@example.net', '2020-08-31 19:30:51', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'rAArRNpXJn', '2020-08-31 19:30:51', '2020-08-31 19:30:51'),
+	(2, 'Destany Stamm', 'katherine.miller@example.net', '2020-08-31 19:30:51', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'F8QFUnT1oo', '2020-08-31 19:30:51', '2020-08-31 19:30:51'),
+	(3, 'Leann Brekke DDS', 'jettie.dubuque@example.org', '2020-08-31 19:30:51', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'BMXDNeNZzv', '2020-08-31 19:30:51', '2020-08-31 19:30:51'),
+	(4, 'Enola Eichmann', 'caterina.nicolas@example.net', '2020-08-31 19:30:51', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'GvahkoBNk6', '2020-08-31 19:30:51', '2020-08-31 19:30:51'),
+	(5, 'Terrence Kilback', 'celestine.gleichner@example.com', '2020-08-31 19:30:51', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'B9sXSeEu9X', '2020-08-31 19:30:51', '2020-08-31 19:30:51');
+
+-- tags
+INSERT INTO `tags` (`id`, `name`, `created_at`, `updated_at`)
+VALUES
+	(1, 'Laravel', '2020-08-31 16:09:38', '2020-08-31 16:09:38'),
+	(2, 'Programming', '2020-08-31 16:09:55', '2020-08-31 16:09:55'),
+	(3, 'Personal', '2020-08-31 16:10:09', '2020-08-31 16:10:09');
+	
+
+-- post_tag
+INSERT INTO `post_tag` (`id`, `post_id`, `tag_id`, `created_at`, `updated_at`)
+VALUES
+	(1, 1, 1, '2020-08-31 16:11:12', '2020-08-31 16:11:12'),
+	(2, 1, 2, '2020-08-31 16:13:09', '2020-08-31 16:13:19'),
+	(3, 3, 1, '2020-08-31 16:15:47', '2020-08-31 16:15:47');
+	
+
+
+</string>
+			<key>view</key>
+			<string>SP_VIEW_CUSTOMQUERY</string>
+			<key>windowVerticalDividerPosition</key>
+			<real>168</real>
+		</dict>
+	</dict>
+	<key>encrypted</key>
+	<false/>
+	<key>format</key>
+	<string>connection</string>
+	<key>queryFavorites</key>
+	<array/>
+	<key>queryHistory</key>
+	<array>
+		<string>explain select rental_id from rental</string>
+		<string>explain select * from rental</string>
+		<string>select * from rental</string>
+		<string>-- post_tag
+INSERT INTO `post_tag` (`id`, `post_id`, `tag_id`, `created_at`, `updated_at`)
+VALUES
+	(1, 1, 1, '2020-08-31 16:11:12', '2020-08-31 16:11:12'),
+	(2, 1, 2, '2020-08-31 16:13:09', '2020-08-31 16:13:19'),
+	(3, 3, 1, '2020-08-31 16:15:47', '2020-08-31 16:15:47')</string>
+		<string>-- tags
+INSERT INTO `tags` (`id`, `name`, `created_at`, `updated_at`)
+VALUES
+	(1, 'Laravel', '2020-08-31 16:09:38', '2020-08-31 16:09:38'),
+	(2, 'Programming', '2020-08-31 16:09:55', '2020-08-31 16:09:55'),
+	(3, 'Personal', '2020-08-31 16:10:09', '2020-08-31 16:10:09')</string>
+		<string>-- users
+INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`)
+VALUES
+	(1, 'Cassandre Bechtelar', 'vwiegand@example.net', '2020-08-31 19:30:51', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'rAArRNpXJn', '2020-08-31 19:30:51', '2020-08-31 19:30:51'),
+	(2, 'Destany Stamm', 'katherine.miller@example.net', '2020-08-31 19:30:51', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'F8QFUnT1oo', '2020-08-31 19:30:51', '2020-08-31 19:30:51'),
+	(3, 'Leann Brekke DDS', 'jettie.dubuque@example.org', '2020-08-31 19:30:51', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'BMXDNeNZzv', '2020-08-31 19:30:51', '2020-08-31 19:30:51'),
+	(4, 'Enola Eichmann', 'caterina.nicolas@example.net', '2020-08-31 19:30:51', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'GvahkoBNk6', '2020-08-31 19:30:51', '2020-08-31 19:30:51'),
+	(5, 'Terrence Kilback', 'celestine.gleichner@example.com', '2020-08-31 19:30:51', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'B9sXSeEu9X', '2020-08-31 19:30:51', '2020-08-31 19:30:51')</string>
+		<string>-- posts
+INSERT INTO `posts` (`id`, `user_id`, `title`, `body`, `created_at`, `updated_at`, `published_at`)
+VALUES
+	(1, 1, 'Foo', 'Foobar baz', '2020-08-31 19:34:30', '2020-08-31 19:34:30', '2020-08-31 15:34:57'),
+	(3, 1, 'Another Laraavel Post', 'Laravel is a PHP framework', '2020-08-31 16:14:56', '2020-08-31 16:15:07', '2020-08-31 16:15:11'),
+	(2, 1, 'Abc', 'Alphabets A B C', '2020-08-31 19:36:27', '2020-08-31 19:36:27', '2020-08-31 16:15:16')</string>
+		<string>select * from post_tag</string>
+		<string>select * from tags</string>
+		<string>select * from posts</string>
+		<string>select title, sum(amount) sales, count(*) rentals
+from rental
+join payment
+on rental.rental_id = payment.rental_id
+join inventory
+on rental.inventory_id = inventory.inventory_id
+join film
+on inventory.film_id = film.film_id
+group by title
+having sales &gt; 200 -- where clause needs to be used for actual columns
+order by sales desc</string>
+		<string>select title, sum(amount) sales, count(*) rentals
+from rental
+join payment
+on rental.rental_id = payment.rental_id
+join inventory
+on rental.inventory_id = inventory.inventory_id
+join film
+on inventory.film_id = film.film_id
+group by title
+where sum(amount) &gt; 200
+order by sales desc</string>
+		<string>select title, sum(amount) sales, count(*) rentals
+from rental
+join payment
+on rental.rental_id = payment.rental_id
+join inventory
+on rental.inventory_id = inventory.inventory_id
+join film
+on inventory.film_id = film.film_id
+group by title
+-- having sales &gt; 200 -- where clause needs to be used for actual columns
+where sum(amount) &gt; 200
+order by sales desc</string>
+		<string>select title, sum(amount) sales, count(*) rentals
+from rental
+join payment
+on rental.rental_id = payment.rental_id
+join inventory
+on rental.inventory_id = inventory.inventory_id
+join film
+on inventory.film_id = film.film_id
+group by title
+having sales &gt; 200
+order by sales desc</string>
+		<string>select title, sum(amount) sales, count(*)
+from rental
+join payment
+on rental.rental_id = payment.rental_id
+join inventory
+on rental.inventory_id = inventory.inventory_id
+join film
+on inventory.film_id = film.film_id
+group by title
+order by sales desc</string>
+		<string>select title, sum(amount) sales
+from rental
+join payment
+on rental.rental_id = payment.rental_id
+join inventory
+on rental.inventory_id = inventory.inventory_id
+join film
+on inventory.film_id = film.film_id
+group by title
+order by sales desc</string>
+		<string>select title, sum(amount) sales
+from rental
+join payment
+on rental.rental_id = payment.rental_id
+join inventory
+on rental.inventory_id = inventory.inventory_id
+join film
+on inventory.film_id = film.film_id
+group by title</string>
+		<string>select title, sum(amount) 
+from rental
+join payment
+on rental.rental_id = payment.rental_id
+join inventory
+on rental.inventory_id = inventory.inventory_id
+join film
+on inventory.film_id = film.film_id
+group by title</string>
+		<string>select title 
+from rental
+join payment
+on rental.rental_id = payment.rental_id
+join inventory
+on rental.inventory_id = inventory.inventory_id
+join film
+on inventory.film_id = film.film_id</string>
+		<string>select * 
+from rental
+join payment
+on rental.rental_id = payment.rental_id
+join inventory
+on rental.inventory_id = inventory.inventory_id
+join film
+on inventory.film_id = film.film_id</string>
+	</array>
+	<key>rdbms_type</key>
+	<string>mysql</string>
+	<key>rdbms_version</key>
+	<string>8.0.21</string>
+	<key>version</key>
+	<integer>1</integer>
+</dict>
+</plist>
