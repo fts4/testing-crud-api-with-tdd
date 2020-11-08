@@ -17,14 +17,14 @@
             <directory suffix="Test.php">./tests/Feature</directory>
         </testsuite>
     </testsuites>
-<!--    <filter>-->
-<!--        <whitelist processUncoveredFilesFromWhitelist="true">-->
-<!--            <directory suffix=".php">./app</directory>-->
-<!--        </whitelist>-->
-<!--    </filter>-->
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">./app</directory>
+        </whitelist>
+    </filter>
     <php>
         <env name="APP_ENV" value="testing"/>
-        <env name="APP_DEBUG" value="true"/>
+        <env name="APP_DEBUG" value="false"/>
         <env name="APP_KEY" value="base64:4TLZ61eef/KXnR4Z91c0YSoLOoh30WRf0zMM6SVKDVA="/>
         <env name="BCRYPT_ROUNDS" value="4"/>
         <env name="DB_CONNECTION" value="sqlite"/>

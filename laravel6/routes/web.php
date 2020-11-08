@@ -11,13 +11,9 @@
 |
 */
 
-Route::get('/', function () {
+Route::get('/tdd', function() {
     return view('welcome');
-});
-
-Route::get('/tdd', function () {
-    return view('welcome');
-});
+})->name('tdd');
 
 Route::group(['prefix' => 'posts'], function() {
     Route::get('/', 'PostController@index')->name('posts');
@@ -26,4 +22,5 @@ Route::group(['prefix' => 'posts'], function() {
     Route::put('/{post}', 'PostController@update')->name('posts.update');
     Route::delete('/{post}', 'PostController@delete')->name('posts.delete');
 });
+
 

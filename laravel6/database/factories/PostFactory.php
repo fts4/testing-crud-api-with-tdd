@@ -13,13 +13,3 @@ $factory->define(Post::class, function (Faker $faker) {
         'content' => $faker->sentence(50)
     ];
 });
-
-
-
-
-//    return [
-//        'slug' => ucfirst($faker->word),
-//        'title' => $faker->sentence(10),
-//        'body' => $faker->sentence(50),
-//        'created_at' => now()
-//    ];
