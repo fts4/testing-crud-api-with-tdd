@@ -22,12 +22,21 @@
             <directory suffix=".php">./app</directory>
         </whitelist>
     </filter>
+    <logging>
+    <log type="coverage-html" target="report/html"
+         lowUpperBound="50" highLowerBound="70"/>
+    </logging>
     <php>
-        <server name="APP_ENV" value="testing"/>
-        <server name="BCRYPT_ROUNDS" value="4"/>
-        <server name="CACHE_DRIVER" value="array"/>
-        <server name="MAIL_DRIVER" value="array"/>
-        <server name="QUEUE_CONNECTION" value="sync"/>
-        <server name="SESSION_DRIVER" value="array"/>
+        <env name="APP_ENV" value="testing"/>
+        <env name="APP_DEBUG" value="false"/>
+        <env name="APP_KEY" value="base64:4TLZ61eef/KXnR4Z91c0YSoLOoh30WRf0zMM6SVKDVA="/>
+        <env name="BCRYPT_ROUNDS" value="4"/>
+        <env name="DB_CONNECTION" value="sqlite"/>
+        <env name="DB_DATABASE" value=":memory:"/>
+        <env name="CACHE_DRIVER" value="array"/>
+        <env name="MAIL_DRIVER" value="array"/>
+        <env name="QUEUE_CONNECTION" value="sync"/>
+        <env name="SESSION_DRIVER" value="array"/>
+        <env name="SOAP_DRIVER" value="mock"/>
     </php>
 </phpunit>

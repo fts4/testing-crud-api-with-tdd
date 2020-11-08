@@ -4,19 +4,23 @@ namespace Tests\Unit;
 
 use App\Post;
 use Tests\TestCase;
+use Tests\RefreshTestDatabase;
 
 class PostTest extends TestCase
 {
+    // when using in-memory sqlite database, phpunit throws errors
+    // if RefreshTestDatabase is not used. Note that RefreshTestDatabase
+    // is a trait that uses RefreshDatabase
+    use RefreshTestDatabase;
 
     public function testCanShowWelcomePage()
     {
         $this->withoutExceptionHandling();
-        // testing a named route
         $response = $this->get(route('tdd'));
         $response->assertStatus(200);
     }
 
-    public function testGet3()
+    public function testGetOnIndexPage()
     {
         $this->withoutExceptionHandling();
 
@@ -44,6 +48,8 @@ class PostTest extends TestCase
 
     public function test_can_update_post() {
 
+        $this->withoutExceptionHandling();
+
         $post = factory(Post::class)->create();
 
         $data = [
@@ -51,7 +57,7 @@ class PostTest extends TestCase
             'content' => $this->faker->paragraph
         ];
 
-        $response = $this->put(route('posts.update', $post->id), $data)
+        $this->put(route('posts.update', $post->id), $data)
             ->assertStatus(200)
             ->assertJson($data);
 
@@ -59,6 +65,8 @@ class PostTest extends TestCase
     }
 
     public function test_can_show_post() {
+
+        $this->withoutExceptionHandling();
 
         $post = factory(Post::class)->create();
 
@@ -68,6 +76,8 @@ class PostTest extends TestCase
 
     public function test_can_delete_post() {
 
+        $this->withoutExceptionHandling();
+
         $post = factory(Post::class)->create();
 
         $this->delete(route('posts.delete', $post->id))
@@ -75,6 +85,9 @@ class PostTest extends TestCase
     }
 
     public function test_can_list_posts() {
+
+        $this->withoutExceptionHandling();
+
         $posts = factory(Post::class, 2)->create()->map(function ($post) {
             return $post->only(['id', 'title', 'content']);
         });
